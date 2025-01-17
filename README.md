@@ -16,8 +16,8 @@
 
 1. Склонируйте репозиторий:
 
-   git clone 
-   cd orders-django
+   git clone https://github.com/TatyanaStartseva/Orders.git
+   cd Orders
 2. Создайте и активируйте виртуальное окружение:
 
 python -m venv venv
