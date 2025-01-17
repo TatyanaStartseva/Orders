@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Добавить заказ</title>
+    <script>
+        function addDishRow() {
+            const dishList = document.getElementById('dish-list');
+            const newRow = document.createElement('div');
+            newRow.classList.add('dish-row');
+            newRow.innerHTML = `
+                <input type="text" name="items[]" placeholder="Блюдо" required>
+                <input type="number" name="prices[]" placeholder="Цена" required min="1">
+                <button type="button" onclick="removeDishRow(this)">Удалить</button>
+            `;
+            dishList.appendChild(newRow);
+        }
+
+        function removeDishRow(button) {
+            button.parentElement.remove();
+        }
+    </script>
+</head>
+<body>
+<h1>Добавить заказ</h1>
+<form method="post" action="{% url 'add_order' %}">
+    {% csrf_token %}
+    <label for="table_number">Номер стола:</label>
+    <input type="number" id="table_number" name="table_number" required min="1"><br><br>
+
+    <h3>Блюда:</h3>
+    <div id="dish-list">
+        <div class="dish-row">
+            <input type="text" name="items[]" placeholder="Блюдо" required>
+            <input type="number" name="prices[]" placeholder="Цена" required min="1">
+            <button type="button" onclick="removeDishRow(this)">Удалить</button>
+        </div>
+    </div>
+    <button type="button" onclick="addDishRow()">Добавить блюдо</button><br><br>
+
+    <button type="submit">Создать заказ</button>
+</form>
+</body>
+</html>

@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Список заказов</title>
+</head>
+<body>
+    <h1>Все заказы</h1>
+    <a href="{% url 'add_order' %}">Добавить заказ</a>
+
+    <!-- Кнопка для перехода на страницу выручки -->
+    <a href="{% url 'calculate_revenue' %}">
+        <button>Перейти к расчёту выручки</button>
+    </a>
+
+    <form method="get">
+    <input type="text" name="q" placeholder="Поиск по номеру стола или статусу" value="{{ query }}">
+
+    <!-- Форма для выбора статуса -->
+    <select name="status">
+        <option value="">Все статусы</option>
+        {% for value in statuses %}
+            <option value="{{ value }}" {% if selected_status == value %}selected{% endif %}>
+                {{ value }}
+            </option>
+        {% endfor %}
+    </select>
+
+    <button type="submit">Искать</button>
+    </form>
+
+    <table>
+        <tr>
+            <th>ID</th>
+            <th>Стол</th>
+            <th>Блюда</th>
+            <th>Сумма</th>
+            <th>Статус</th>
+            <th>Действия</th>
+        </tr>
+        {% for order in orders %}
+        <tr>
+            <td>{{ order.id }}</td>
+            <td>{{ order.table_number }}</td>
+            <td>{{ order.items }}</td>
+            <td>{{ order.total_price }}</td>
+            <td>{{ order.get_status_display }}</td>
+            <td>
+                <a href="{% url 'update_order_status' order.id 'ready' %}">Готово</a>
+                <a href="{% url 'update_order_status' order.id 'paid' %}">Оплачено</a>
+                <a href="{% url 'delete_order' order.id %}">Удалить</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+</body>
+</html>
